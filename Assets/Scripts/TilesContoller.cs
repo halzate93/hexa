@@ -1,15 +1,26 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
-public class TilesContoller : MonoBehaviour {
+public class TilesContoller : MonoBehaviour
+{
+	public float timeToFall = 3f;
 
-	// Use this for initialization
-	void Start () {
-	
+	private void OnCollisionEnter(Collision col)
+	{
+		switch (col.collider.tag)
+		{
+			case "Player":
+				StartFalling();
+
+				break;
+
+			default:
+				break;
+		}
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+
+	public void StartFalling()
+	{
+		GetComponent<Rigidbody>().isKinematic = false;
 	}
 }
