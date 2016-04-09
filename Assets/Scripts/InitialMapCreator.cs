@@ -87,7 +87,7 @@ public class InitialMapCreator : MonoBehaviour
 			{
 				Vector3 elePosition = GetEvenOddPosition(tiles[i]);
 				elePosition.y += elementDelta;
-				GameObject element = (GameObject)GameObject.Instantiate(tile, elePosition, Quaternion.identity);
+				GameObject element = (GameObject)GameObject.Instantiate(obj, elePosition, Quaternion.identity);
 			}
 			Vector3 position = GetEvenOddPosition(tiles[i]);
 			GameObject tileObject = (GameObject)GameObject.Instantiate(tile, position, Quaternion.identity);
