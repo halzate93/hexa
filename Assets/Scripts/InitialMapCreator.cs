@@ -37,20 +37,22 @@ public class InitialMapCreator : MonoBehaviour
 	// Use this for initialization
 	private void Start()
 	{
-		Tile[] tiles = new Tile[numberTiles];
+		//int k = 0;
+		//for (int i = 0; i < 10; i++)
+		//{
+		//	for (int j = 0; j < 10; j++)
+		//	{
+		//		tiles[k] = new Tile();
+		//		tiles[k].x = i;
+		//		tiles[k].y = j;
+		//		tiles[k].type = TileType.Normal;
+		//		k++;
+		//	}
+		//}
 
-		int k = 0;
-		for (int i = 0; i < 10; i++)
-		{
-			for (int j = 0; j < 10; j++)
-			{
-				tiles[k] = new Tile();
-				tiles[k].x = i;
-				tiles[k].y = j;
-				tiles[k].type = TileType.Normal;
-				k++;
-			}
-		}
+		Adapter adapter = new Adapter();
+
+		Tile[] tiles = adapter.Tiles;
 
 		Map map = new Map();
 		map.cells = new GameObject[numberTiles, numberTiles];
