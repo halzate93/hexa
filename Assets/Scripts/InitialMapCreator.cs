@@ -1,9 +1,12 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum TileType
 {
-	Normal = 0
+	Normal = 0,
+	Obstacle = 1,
+	Crystal = 2
 }
 
 public class Tile
@@ -26,13 +29,19 @@ public class InitialMapCreator : MonoBehaviour
 	public int numberTiles;
 
 	[SerializeField]
-	public GameObject normalTile;
+	public GameObject[] normalTilePrefabs;
+
+	[SerializeField]
+	public GameObject[] elementsPrefabs;
 
 	[SerializeField]
 	public Vector2 offsets;
 
 	[SerializeField]
 	public float evenDelta;
+
+	[SerializeField]
+	public float elementDelta = 1;
 
 	// Use this for initialization
 	private void Start()
@@ -59,14 +68,30 @@ public class InitialMapCreator : MonoBehaviour
 
 		for (int i = 0; i < tiles.Length; i++)
 		{
+			GameObject tile = normalTilePrefabs[Random.Range(0, normalTilePrefabs.Length - 1)];
+			GameObject obj = null;
 			switch (tiles[i].type)
 			{
 				case TileType.Normal:
-					Vector3 position = GetEvenOddPosition(tiles[i]);
-					GameObject tileObject = (GameObject)GameObject.Instantiate(normalTile, position, Quaternion.identity);
-					map.cells[tiles[i].x, tiles[i].y] = tileObject;
+					break;
+
+				case TileType.Obstacle:
+					obj = elementsPrefabs[0];
+					break;
+
+				case TileType.Crystal:
+					obj = elementsPrefabs[1];
 					break;
 			}
+			if (obj != null)
+			{
+				Vector3 elePosition = GetEvenOddPosition(tiles[i]);
+				elePosition.y += elementDelta;
+				GameObject element = (GameObject)GameObject.Instantiate(tile, elePosition, Quaternion.identity);
+			}
+			Vector3 position = GetEvenOddPosition(tiles[i]);
+			GameObject tileObject = (GameObject)GameObject.Instantiate(tile, position, Quaternion.identity);
+			map.cells[tiles[i].x, tiles[i].y] = tileObject;
 		}
 	}
 
