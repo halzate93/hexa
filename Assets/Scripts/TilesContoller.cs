@@ -1,18 +1,26 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class TilesContoller : MonoBehaviour
 {
 	public float timeToFall = 3f;
 
-	private bool isFalling = false;
+	public float shakeStrenght;
 
-	private void OnCollisionEnter(Collision col)
+	public new Rigidbody rigidbody;
+
+	private bool isFalling;
+
+	private Vector3 originalPosition;
+
+	private void OnCollisionEnter(Collision other)
 	{
-		switch (col.collider.tag)
+		switch (other.collider.tag)
 		{
 			case "Player":
-				StartFalling();
+				if (!isFalling)
+					StartFalling();
 
 				break;
 
@@ -21,20 +29,27 @@ public class TilesContoller : MonoBehaviour
 		}
 	}
 
-	public void StartFalling()
+	private void StartFalling()
 	{
-		if (!isFalling)
+		originalPosition = transform.position;
+		isFalling = true;
+		StartCoroutine(Fall());
+	}
+
+	private void Update()
+	{
+		if (isFalling)
 		{
-			isFalling = true;
-			StartCoroutine(Fall());
+			Vector3 translation = Vector3.up * UnityEngine.Random.Range(-shakeStrenght, shakeStrenght);
+			transform.Translate(translation);
 		}
 	}
 
 	public IEnumerator Fall()
 	{
 		yield return new WaitForSeconds(timeToFall);
-
-		GetComponent<Rigidbody>().isKinematic = false;
+		isFalling = false;
+		rigidbody.isKinematic = false;
 
 		Destroy(this.gameObject, 4f);
 	}
