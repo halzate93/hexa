@@ -1,16 +1,34 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class Adapter : MonoBehaviour
+public class Adapter
 {
-	// Use this for initialization
-	private void Start()
+	private Tile[] tiles;
+
+	public Tile[] Tiles
 	{
-		Debug.Log(GetMap.getFileData());
+		get
+		{
+			return tiles;
+		}
 	}
 
-	// Update is called once per frame
-	private void Update()
+	public Adapter()
 	{
+		BuildTiles(GetMap.getFileData());
+	}
+
+	private void BuildTiles(MapPositions[] maps)
+	{
+		Tile[] tiles = new Tile[maps.Length];
+		for (int i = 0; i < maps.Length; i++)
+		{
+			Tile tile = new Tile();
+			tile.x = maps[i].x;
+			tile.y = maps[i].y;
+			tile.type = (TileType)maps[i].type;
+			tiles[i] = tile;
+		}
+		this.tiles = tiles;
 	}
 }
