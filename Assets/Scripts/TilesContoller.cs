@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TilesContoller : MonoBehaviour
 {
-	public float timeToFall = 3f;
+	public float timeToFall = 1f;
 
 	public float shakeStrenght;
 
