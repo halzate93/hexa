@@ -1,8 +1,9 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using System;
 
 public class Adapter
 {
+	public event Action<Tile[]> OnBuiltTiles;
+
 	private Tile[] tiles;
 
 	public Tile[] Tiles
@@ -15,7 +16,7 @@ public class Adapter
 
 	public Adapter()
 	{
-		BuildTiles(GetMap.getFileData());
+		GetMap.Instance.OnGotMap += BuildTiles;
 	}
 
 	private void BuildTiles(MapPositions[] maps)
@@ -30,5 +31,7 @@ public class Adapter
 			tiles[i] = tile;
 		}
 		this.tiles = tiles;
+		if (OnBuiltTiles != null)
+			OnBuiltTiles(tiles);
 	}
 }

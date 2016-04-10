@@ -46,23 +46,12 @@ public class InitialMapCreator : MonoBehaviour
 	// Use this for initialization
 	private void Start()
 	{
-		//int k = 0;
-		//for (int i = 0; i < 10; i++)
-		//{
-		//	for (int j = 0; j < 10; j++)
-		//	{
-		//		tiles[k] = new Tile();
-		//		tiles[k].x = i;
-		//		tiles[k].y = j;
-		//		tiles[k].type = TileType.Normal;
-		//		k++;
-		//	}
-		//}
-
 		Adapter adapter = new Adapter();
+		adapter.OnBuiltTiles += CreateMap;
+	}
 
-		Tile[] tiles = adapter.Tiles;
-
+	private void CreateMap(Tile[] tiles)
+	{
 		Map map = new Map();
 		map.cells = new GameObject[numberTiles, numberTiles];
 
@@ -93,11 +82,6 @@ public class InitialMapCreator : MonoBehaviour
 			GameObject tileObject = (GameObject)GameObject.Instantiate(tile, position, Quaternion.identity);
 			map.cells[tiles[i].x, tiles[i].y] = tileObject;
 		}
-	}
-
-	// Update is called once per frame
-	private void Update()
-	{
 	}
 
 	private Vector3 GetEvenOddPosition(Tile tile)
